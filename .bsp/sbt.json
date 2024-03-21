@@ -1,0 +1,1 @@
+{"name":"sbt","version":"1.9.8","bspVersion":"2.1.0-M1","languages":["scala"],"argv":["/Users/vadim/Library/Java/JavaVirtualMachines/openjdk-20.0.1-1/Contents/Home/bin/java","-Xms100m","-Xmx100m","-classpath","/Users/vadim/IdeaProjects/akka-http-quickstart-java/sbt-dist/bin/sbt-launch.jar","-Dsbt.script=/opt/homebrew/bin/sbt","xsbt.boot.Boot","-bsp"]}

@@ -1,0 +1,19 @@
+
+7
+sbt.bat,6/3/632b9b75229e6d140b5890a30a59ff7ee29b03d7
+3
+sbt,1/a/1a1630e2d6a976dc059f4795b905a170448db58d
+Y
+)src/main/java/com/example/UserRoutes.java,0/3/03b99c43aa3bcb61b758a27641496d9595d21986
+]
+-src/test/java/com/example/UserRoutesTest.java,9/4/946f7db0d167b91caa80607005ecf1aa69c4e2a5
+\
+,src/main/java/com/example/QuickstartApp.java,1/e/1e38ad87d9fbc6c84c3652c546c07b8404593609
+[
++src/main/java/com/example/UserRegistry.java,5/3/53798e7a932e3127ef084a44c48993d3faea7456
+@
+sbt-dist/bin/sbt,7/2/72164f3c0b7263cb8be34f4955ecf1a81f24bbba
+9
+	build.sbt,7/4/74b95601c3a6d9d565cd312fac64094ec0f9d847
+7
+pom.xml,4/4/442292b8a7efeabbe4cc176709b833b1792140ec

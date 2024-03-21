@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module version="4">
+  <component name="SbtModule">
+    <option name="buildForURI" value="file:$MODULE_DIR$/../../" />
+    <option name="resolvers" value="$USER_HOME$/.ivy2/cache|ivy|true|Local cache" />
+  </component>
+  <component name="SonarLintModuleSettings">
+    <option name="uniqueId" value="42819089-9957-4d8a-8efb-627693c8a923" />
+  </component>
+</module>
