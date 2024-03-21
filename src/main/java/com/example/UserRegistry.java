@@ -24,9 +24,11 @@ public class UserRegistry extends AbstractBehavior<UserRegistry.Command>  {
 
   public static final record User(String name, int age, String countryOfResidence) {}
 
+  public static final record Error(String error) {}
+
   public static final record Users(List<User> users) {}
 
-  private final List<User> users = new ArrayList<>();
+  public static final List<User> users = new ArrayList<>();
 
   private UserRegistry(ActorContext<Command> context) {
     super(context);
@@ -51,7 +53,6 @@ public class UserRegistry extends AbstractBehavior<UserRegistry.Command>  {
   }
 
   private Behavior<Command> onCreateUser(CreateUser command) {
-    users.add(command.user());
     command.replyTo().tell(new ActionPerformed(String.format("User %s created.", command.user().name())));
     return this;
   }

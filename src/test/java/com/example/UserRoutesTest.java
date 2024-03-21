@@ -12,6 +12,8 @@ import akka.http.javadsl.model.HttpRequest;
 import akka.http.javadsl.model.StatusCodes;
 import akka.actor.testkit.typed.javadsl.TestKitJunitResource;
 
+import static com.example.UserRegistry.users;
+
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class UserRoutesTest extends JUnitRouteTest {
@@ -31,6 +33,7 @@ public class UserRoutesTest extends JUnitRouteTest {
     public void before() {
         UserRoutes userRoutes = new UserRoutes(testkit.system(), userRegistry);
         appRoute = testRoute(userRoutes.userRoutes());
+        users.add(new UserRegistry.User("Kapi", 42, "jp"));
     }
 
     @AfterClass
@@ -50,12 +53,31 @@ public class UserRoutesTest extends JUnitRouteTest {
 
     @Test
     public void testIfUserExistForRegistration() {
-        appRoute.run(HttpRequest.POST("/users")
+        appRoute.run(HttpRequest.POST("/api_v1/registrate")
                         .withEntity(MediaTypes.APPLICATION_JSON.toContentType(),
                                 "{\"name\": \"Kapi\", \"age\": 42, \"countryOfResidence\": \"jp\"}"))
-                .assertStatusCode(StatusCodes.UNPROCESSABLE_ENTITY)
+                .assertStatusCode(StatusCodes.UNPROCESSABLE_CONTENT)
                 .assertMediaType("application/json")
-                .assertEntity("{\"error\": \"session.errors.emailAlreadyRegistered\"}");
+                .assertEntity("{\"error\":\"session.errors.emailAlreadyRegistered\"}");
     }
 
+    @Test
+    public void testSuccessLogin() {
+        appRoute.run(HttpRequest.POST("/api_v1/login")
+                        .withEntity(MediaTypes.APPLICATION_JSON.toContentType(),
+                                "{\"name\": \"Kapi\", \"age\": 42, \"countryOfResidence\": \"jp\"}"))
+                .assertStatusCode(StatusCodes.OK)
+                .assertMediaType("application/json")
+                .assertEntity("\"\"");
+    }
+
+    @Test
+    public void testUnSuccessLogin() {
+        appRoute.run(HttpRequest.POST("/api_v1/login")
+                        .withEntity(MediaTypes.APPLICATION_JSON.toContentType(),
+                                "{\"name\": \"Kapsdfdsi\", \"age\": 43252, \"countryOfResidence\": \"324\"}"))
+                .assertStatusCode(StatusCodes.UNPROCESSABLE_CONTENT)
+                .assertMediaType("application/json")
+                .assertEntity("{\"error\":\"session.errors.emailAlreadyRegistered\"}");
+    }
 }

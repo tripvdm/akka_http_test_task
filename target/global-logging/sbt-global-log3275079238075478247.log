@@ -1,10 +1,10 @@
-[0m[[0m[0mdebug[0m] [0m[0m> Exec(reStart, Some(d98eb9a3-576e-49fd-b4be-6ce1f82a561f), Some(CommandSource(console0)))[0m
+[0m[[0m[0mdebug[0m] [0m[0m> Exec(reStart, Some(c2f20eef-6322-4e94-bff9-3b037cc4dd76), Some(CommandSource(console0)))[0m
 [0m[[0m[0mdebug[0m] [0m[0mEvaluating tasks: reStart[0m
 [0m[[0m[0mdebug[0m] [0m[0mRunning task... Cancel: Signal, check cycles: false, forcegc: true[0m
-[0m[[0m[0minfo[0m] [0m[0mcompiling 1 Java source to /Users/vadim/IdeaProjects/akka-http-quickstart-java/target/scala-2.13/classes ...[0m
+[0m[[0m[0minfo[0m] [0m[0mcompiling 3 Java sources to /Users/vadim/IdeaProjects/akka-http-quickstart-java/target/scala-2.13/classes ...[0m
 [0m[[0m[0minfo[0m] [0m[0m[33mStopping application [0m[34mroot[0m[33m (by killing the forked JVM) ...[0m
 [0m[[0m[0minfo[0m] [0m[0m[33mStarting application [0m[35mroot[0m[33m in the background ...[0m
-[0m[[0m[32msuccess[0m] [0m[0mTotal time: 1 s, completed 21 мар. 2024 г., 15:45:51[0m
+[0m[[0m[32msuccess[0m] [0m[0mTotal time: 1 s, completed 21 мар. 2024 г., 17:20:29[0m
 [0m[[0m[0mdebug[0m] [0m[0m> Exec(shell, None, None)[0m
 [0m[[0m[0mdebug[0m] [0m[0mForcing garbage collection...[0m
 [0m[[0m[0minfo[0m] [0m[0mshutting down sbt server[0m

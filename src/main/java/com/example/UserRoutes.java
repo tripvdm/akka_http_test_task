@@ -22,11 +22,13 @@ public class UserRoutes {
     private final ActorRef<Command> userRegistryActor;
     private final Duration askTimeout;
     private final Scheduler scheduler;
+    private final UserRegistry.Error errorUnProccessableContent;
 
     public UserRoutes(ActorSystem<?> system, ActorRef<Command> userRegistryActor) {
         this.userRegistryActor = userRegistryActor;
         scheduler = system.scheduler();
         askTimeout = system.settings().config().getDuration("my-app.routes.ask-timeout");
+        errorUnProccessableContent = new UserRegistry.Error("session.errors.emailAlreadyRegistered");
     }
 
     private CompletionStage<GetUserResponse> getUser(String name) {
@@ -52,9 +54,15 @@ public class UserRoutes {
         return post(() ->
                 entity(
                         Jackson.unmarshaller(User.class),
-                        user ->
-                                onSuccess(createUser(user), performed -> complete(StatusCodes.OK, "", Jackson.marshaller()))
-                )
+                        user -> onSuccess(createUser(user), performed -> {
+                                    if (users.contains(user)) {
+                                        return complete(StatusCodes.UNPROCESSABLE_CONTENT, errorUnProccessableContent, Jackson.marshaller());
+                                    } else {
+                                        users.add(user);
+                                        return complete(StatusCodes.OK, "", Jackson.marshaller());
+                                    }
+                                }
+                        ))
         );
     }
 
@@ -62,9 +70,15 @@ public class UserRoutes {
         return post(() ->
                 entity(
                         Jackson.unmarshaller(User.class),
-                        user -> onSuccess(createUser(user), performed -> complete(StatusCodes.OK, "", Jackson.marshaller()))
+                        user -> onSuccess(createUser(user), performed -> {
+                            if (users.contains(user)) {
+                                return complete(StatusCodes.OK, "", Jackson.marshaller());
+                            } else {
+                                return complete(StatusCodes.UNPROCESSABLE_CONTENT, errorUnProccessableContent, Jackson.marshaller());
+                            }
+                        }
                 )
-        );
+        ));
     }
 
     private Route logoutUser() {
