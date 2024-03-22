@@ -32,7 +32,7 @@ public class QuickstartApp {
         });
     }
 
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) {
         Behavior<NotUsed> rootBehavior = Behaviors.setup(context -> {
             ActorRef<UserRegistry.Command> userRegistryActor =
                 context.spawn(UserRegistry.create(), "UserRegistry");

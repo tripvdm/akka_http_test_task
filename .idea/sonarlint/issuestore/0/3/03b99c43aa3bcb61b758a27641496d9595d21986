@@ -1,3 +1,9 @@
 
-g
-java:S1124"EReorder the modifiers to comply with the Java Language Specification.(ˆÈ¯üÿÿÿÿ8„¤˜€æ1
+D
+java:S1481O"'Remove this unused "us" local variable.(¦É§à8Ü»›¬æ1
+V
+java:S1128"4Remove this unused import 'java.util.Arrays.stream'.(Â´’¨ıÿÿÿÿ8ç»›¬æ1
+I
+java:S1068"'Remove this unused "log" private field.(âƒú­ÿÿÿÿÿ8ê»›¬æ1
+[
+java:S1144+"9Remove this unused private "getAuthorizationUser" method.(Ğ³šØøÿÿÿÿ8ë»›¬æ1
