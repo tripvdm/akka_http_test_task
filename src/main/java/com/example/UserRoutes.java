@@ -29,6 +29,7 @@ public class UserRoutes {
         scheduler = system.scheduler();
         askTimeout = system.settings().config().getDuration("my-app.routes.ask-timeout");
         errorUnProccessableContent = new UserRegistry.Error("session.errors.emailAlreadyRegistered");
+        userAuth = new User("", false);
     }
 
     private CompletionStage<RegistrationUser> createUser(User user) {
