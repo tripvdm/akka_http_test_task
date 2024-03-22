@@ -33,7 +33,7 @@ public class UserRoutesTest extends JUnitRouteTest {
     public void before() {
         UserRoutes userRoutes = new UserRoutes(testkit.system(), userRegistry);
         appRoute = testRoute(userRoutes.userRoutes());
-        users.add(new UserRegistry.User("Kapi", 42, "jp"));
+        users.add(new UserRegistry.User("11", "vadim", "sfds@mail.ru", "11.11.11", "wewq"));
     }
 
     @AfterClass
@@ -44,8 +44,11 @@ public class UserRoutesTest extends JUnitRouteTest {
     @Test
     public void testIfUserNotExistForRegistration() {
         appRoute.run(HttpRequest.POST("/api_v1/registrate")
-                        .withEntity(MediaTypes.APPLICATION_JSON.toContentType(),
-                                "{\"name\": \"Kapi\", \"age\": 42, \"countryOfResidence\": \"jp\"}"))
+                        .withEntity(MediaTypes.APPLICATION_JSON.toContentType(), "{\n" +
+                                "  \"email\": \"sfds@mail.ru\",\n" +
+                                "  \"password\": \"wewq\",\n" +
+                                "   \"name\": \"vadim\"\n" +
+                                "}"))
                 .assertStatusCode(StatusCodes.OK)
                 .assertMediaType("application/json")
                 .assertEntity("\"\"");
@@ -54,15 +57,18 @@ public class UserRoutesTest extends JUnitRouteTest {
     @Test
     public void testIfUserExistForRegistration() {
         appRoute.run(HttpRequest.POST("/api_v1/registrate")
-                        .withEntity(MediaTypes.APPLICATION_JSON.toContentType(),
-                                "{\"name\": \"Kapi\", \"age\": 42, \"countryOfResidence\": \"jp\"}"))
+                        .withEntity(MediaTypes.APPLICATION_JSON.toContentType(), "{\n" +
+                                "  \"email\": \"sfds@mail.ru\",\n" +
+                                "  \"password\": \"wewq\",\n" +
+                                "   \"name\": \"vadim\"\n" +
+                                "}"))
                 .assertStatusCode(StatusCodes.UNPROCESSABLE_CONTENT)
                 .assertMediaType("application/json")
                 .assertEntity("{\"error\":\"session.errors.emailAlreadyRegistered\"}");
     }
 
     @Test
-    public void testSuccessLogin() {
+    public void testLoginExistsUser() {
         appRoute.run(HttpRequest.POST("/api_v1/login")
                         .withEntity(MediaTypes.APPLICATION_JSON.toContentType(),
                                 "{\"name\": \"Kapi\", \"age\": 42, \"countryOfResidence\": \"jp\"}"))
@@ -72,12 +78,44 @@ public class UserRoutesTest extends JUnitRouteTest {
     }
 
     @Test
-    public void testUnSuccessLogin() {
+    public void testLoginNotExistsUser() {
         appRoute.run(HttpRequest.POST("/api_v1/login")
                         .withEntity(MediaTypes.APPLICATION_JSON.toContentType(),
                                 "{\"name\": \"Kapsdfdsi\", \"age\": 43252, \"countryOfResidence\": \"324\"}"))
                 .assertStatusCode(StatusCodes.UNPROCESSABLE_CONTENT)
                 .assertMediaType("application/json")
                 .assertEntity("{\"error\":\"session.errors.emailAlreadyRegistered\"}");
+    }
+
+    @Test
+    public void testLoginAfterRegistration() {
+
+    }
+
+    @Test
+    public void testGetAuthorizationUser() {
+        appRoute.run(HttpRequest.GET("/api_v1/me")
+                        .withEntity(MediaTypes.APPLICATION_JSON.toContentType(),
+                                "{\"name\":\"Kapi\",\"age\":42,\"countryOfResidence\":\"jp\"}"))
+                .assertStatusCode(StatusCodes.OK)
+                .assertMediaType("application/json")
+                .assertEntity("{\"name\":\"Kapi\",\"age\":42,\"countryOfResidence\":\"jp\"}");
+    }
+
+    @Test
+    public void testGetNonAuthorizationUser() {
+        appRoute.run(HttpRequest.GET("/api_v1/me")
+                        .withEntity(MediaTypes.APPLICATION_JSON.toContentType(),
+                                "{\"name\":\"Kapik\",\"age\":42,\"countryOfResidence\":\"jp\"}"))
+                .assertStatusCode(StatusCodes.UNAUTHORIZED)
+                .assertMediaType("application/json")
+                .assertEntity("\"\"");
+    }
+
+    @Test
+    public void testLogoutAuthorizationUser() {
+        appRoute.run(HttpRequest.PUT("/api_v1/logout"))
+                .assertStatusCode(StatusCodes.OK)
+                .assertEntity("\"\"");
     }
 }

@@ -1,17 +1,8 @@
 
-g
-java:S1124"EReorder the modifiers to comply with the Java Language Specification.(ˆóìÄşÿÿÿÿ8Šş—€æ1
-g
-java:S1124"EReorder the modifiers to comply with the Java Language Specification.(æÙâ¿ıÿÿÿÿ8ş—€æ1
-b
-java:S1124"EReorder the modifiers to comply with the Java Language Specification.(£ùû„8ªş—€æ1
-g
-java:S1124"EReorder the modifiers to comply with the Java Language Specification.(—‚£¢üÿÿÿÿ8µş—€æ1
-a
-java:S1124"EReorder the modifiers to comply with the Java Language Specification.(À·á8ºş—€æ1
-g
-java:S1124 "EReorder the modifiers to comply with the Java Language Specification.(ºİØşÿÿÿÿ8Áş—€æ1
-g
-java:S1124#"EReorder the modifiers to comply with the Java Language Specification.(¸”ìœøÿÿÿÿ8Åş—€æ1
-g
-java:S1124%"EReorder the modifiers to comply with the Java Language Specification.(ÅÆˆ—ûÿÿÿÿ8Çş—€æ1
+o
+java:S36554"RCall "maybeUser.isPresent()" or "!maybeUser.isEmpty()" before accessing the value.(²íˆ8Š°å–æ1
+:
+java:S2386"Make this member "protected".(†À€Ê8¢°å–æ1
+]	java:S125/"<This block of commented-out lines of code should be removed.(›­ó»ıÿÿÿÿ8²Ğï–æ1
+r
+java:S21592"VRemove this call to "equals"; comparisons between unrelated types always return false.(…ÂÇ)8ä°å–æ1

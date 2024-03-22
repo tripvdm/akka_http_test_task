@@ -31,62 +31,35 @@ public class UserRoutes {
         errorUnProccessableContent = new UserRegistry.Error("session.errors.emailAlreadyRegistered");
     }
 
-    private CompletionStage<GetUserResponse> getUser(String name) {
-        return AskPattern.ask(userRegistryActor, ref -> new GetUser(name, ref), askTimeout, scheduler);
+    private CompletionStage<AuthorizationUser> getAuthorizationUser() {
+        return AskPattern.ask(userRegistryActor, GetAuthorizationUser::new, askTimeout, scheduler);
     }
 
-    private CompletionStage<Users> getUsers() {
-        return AskPattern.ask(userRegistryActor, GetUsers::new, askTimeout, scheduler);
-    }
-
-    private CompletionStage<ActionPerformed> createUser(User user) {
+    private CompletionStage<RegistrationUser> createUser(User user) {
         return AskPattern.ask(userRegistryActor, ref -> new CreateUser(user, ref), askTimeout, scheduler);
     }
 
     public Route userRoutes() {
         return pathPrefix("api_v1", () ->
-                concat(path("registrate", this::registrateUser))
-                        .orElse(path("login", this::loginUser))
-                        .orElse(path("logout", this::logoutUser)));
+                concat(path("registrate", this::registrateUser)));
     }
 
     private Route registrateUser() {
         return post(() ->
                 entity(
-                        Jackson.unmarshaller(User.class),
-                        user -> onSuccess(createUser(user), performed -> {
-                                    if (users.contains(user)) {
-                                        return complete(StatusCodes.UNPROCESSABLE_CONTENT, errorUnProccessableContent, Jackson.marshaller());
-                                    } else {
-                                        users.add(user);
-                                        return complete(StatusCodes.OK, "", Jackson.marshaller());
-                                    }
+                        Jackson.unmarshaller(RegistrationUser.class),
+                        regUser -> {
+                            User user = new User(regUser.email());
+                            return onSuccess(createUser(user), performed -> {
+                                if (users.contains(user)) {
+                                    return complete(StatusCodes.UNPROCESSABLE_CONTENT, errorUnProccessableContent, Jackson.marshaller());
+                                } else {
+                                    return complete(StatusCodes.OK, "", Jackson.marshaller());
                                 }
-                        ))
-        );
-    }
-
-    private Route loginUser() {
-        return post(() ->
-                entity(
-                        Jackson.unmarshaller(User.class),
-                        user -> onSuccess(createUser(user), performed -> {
-                            if (users.contains(user)) {
-                                return complete(StatusCodes.OK, "", Jackson.marshaller());
-                            } else {
-                                return complete(StatusCodes.UNPROCESSABLE_CONTENT, errorUnProccessableContent, Jackson.marshaller());
-                            }
+                            });
                         }
                 )
-        ));
-    }
-
-    private Route logoutUser() {
-        return put(() ->
-                entity(
-                        Jackson.unmarshaller(User.class),
-                        user -> onSuccess(createUser(user), performed -> complete(StatusCodes.OK, "", Jackson.marshaller()))
-                )
         );
     }
+    // 11:00
 }
