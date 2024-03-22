@@ -7,25 +7,22 @@ import akka.actor.typed.javadsl.AskPattern;
 import akka.http.javadsl.marshallers.jackson.Jackson;
 import akka.http.javadsl.model.StatusCodes;
 import akka.http.javadsl.server.Route;
-import com.example.UserRegistry.User;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.time.Duration;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.CompletionStage;
-import java.util.function.Supplier;
 
 import static akka.http.javadsl.server.Directives.*;
 import static com.example.UserRegistry.*;
-import static java.util.Arrays.stream;
 
 public class UserRoutes {
-    private static final Logger log = LoggerFactory.getLogger(UserRoutes.class);
+    public static final List<User> users = new ArrayList<>();
     private final ActorRef<Command> userRegistryActor;
     private final Duration askTimeout;
     private final Scheduler scheduler;
     private final UserRegistry.Error errorUnProccessableContent;
-
     private User userAuth;
     public UserRoutes(ActorSystem<?> system, ActorRef<Command> userRegistryActor) {
         this.userRegistryActor = userRegistryActor;
@@ -42,12 +39,10 @@ public class UserRoutes {
         return AskPattern.ask(userRegistryActor, ref -> new LoginExistsUser(user, ref), askTimeout, scheduler);
     }
 
-    private CompletionStage<AuthorizationUser> getAuthorizationUser() {
-        return AskPattern.ask(userRegistryActor, GetAuthorizationUser::new, askTimeout, scheduler);
-    }
-
-    private CompletionStage<User> logoutAuthorizationUser() {
-        return AskPattern.ask(userRegistryActor, LogoutUser::new, askTimeout, scheduler);
+    private CompletionStage<AuthorizationUser> getAuthorizationUser(User user) {
+        return AskPattern.ask(userRegistryActor, ref ->
+                new GetAuthorizationUser(Objects.requireNonNullElse(user, new User("", false)), ref),
+                askTimeout, scheduler);
     }
 
     public Route userRoutes() {
@@ -63,11 +58,12 @@ public class UserRoutes {
                 entity(
                         Jackson.unmarshaller(RegistrationUser.class),
                         regUser -> {
-                            User user = new User(regUser.email());
+                            User user = new User(regUser.email(), false);
                             return onSuccess(createUser(user), performed -> {
                                 if (users.contains(user)) {
                                     return complete(StatusCodes.UNPROCESSABLE_CONTENT, errorUnProccessableContent, Jackson.marshaller());
                                 } else {
+                                    users.add(user);
                                     return complete(StatusCodes.OK, "", Jackson.marshaller());
                                 }
                             });
@@ -81,10 +77,10 @@ public class UserRoutes {
                 entity(
                         Jackson.unmarshaller(LoginUser.class),
                         loginUser -> {
-                            User user = new User(loginUser.email());
+                            User user = new User(loginUser.email(), false);
                             return onSuccess(authorizeUsers(user), performed -> {
                                         if (users.contains(user)) {
-                                            userAuth = user;
+                                            userAuth = new User(user.email(), true);
                                             return complete(StatusCodes.OK, "", Jackson.marshaller());
                                         } else {
                                             return complete(StatusCodes.UNPROCESSABLE_CONTENT, errorUnProccessableContent, Jackson.marshaller());
@@ -97,22 +93,19 @@ public class UserRoutes {
 
     private Route getUser() {
         return get(() ->
-                entity(
-                        Jackson.unmarshaller(AuthorizationUser.class),
-                        authorizationUser -> onSuccess(getAuthorizationUser(), performed -> {
-                            if (userAuth != null) {
-                                return complete(StatusCodes.OK, userAuth, Jackson.marshaller());
-                            } else {
-                                return complete(StatusCodes.UNAUTHORIZED, "", Jackson.marshaller());
-                            }
-                        })
-                ));
+             onSuccess(getAuthorizationUser(userAuth), performed -> {
+                if (userAuth.login()) {
+                    return complete(StatusCodes.OK, performed, Jackson.marshaller());
+                } else {
+                    return complete(StatusCodes.UNAUTHORIZED, "", Jackson.marshaller());
+                }
+        }));
     }
 
     private Route logoutUser() {
-        return put(() -> onSuccess(logoutAuthorizationUser(), performed -> {
-                            userAuth = null;
-                            return complete(StatusCodes.OK, "");
-                        }));
+        return put(() -> {
+            userAuth = new User("", false);
+            return complete(StatusCodes.OK);
+        });
     }
 }

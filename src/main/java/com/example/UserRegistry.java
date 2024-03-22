@@ -11,10 +11,11 @@ import java.util.*;
 
 public class UserRegistry extends AbstractBehavior<UserRegistry.Command>  {
     sealed interface Command {}
-    public record User(String id, String name, String email, String created, String password) {
-        User(String email) {
-            this("", "", email, "", "");
+    public record User(String id, String name, String email, String created, String password, boolean login) {
+        User(String email, boolean login) {
+            this("", "", email, "", "", login);
         }
+
         @Override
         public boolean equals(Object o) {
             if (this == o) return true;
@@ -34,9 +35,7 @@ public class UserRegistry extends AbstractBehavior<UserRegistry.Command>  {
     public record Error(String error) {}
     public record CreateUser(User user, ActorRef<RegistrationUser> replyTo) implements Command {}
     public record LoginExistsUser(User user, ActorRef<LoginUser> replyTo) implements Command {}
-    public record GetAuthorizationUser(ActorRef<AuthorizationUser> replyTo) implements Command {}
-    public record LogoutUser(ActorRef<User> replyTo) implements Command {}
-    public static final List<User> users = new ArrayList<>();
+    public record GetAuthorizationUser(User user, ActorRef<AuthorizationUser> replyTo) implements Command {}
 
     private UserRegistry(ActorContext<Command> context) {
       super(context);
@@ -50,6 +49,7 @@ public class UserRegistry extends AbstractBehavior<UserRegistry.Command>  {
     public Receive<Command> createReceive() {
       return newReceiveBuilder()
               .onMessage(CreateUser.class, this::onCreateUser)
+              .onMessage(LoginExistsUser.class, this::onLoginUser)
               .onMessage(GetAuthorizationUser.class, this::onGetUser)
               .build();
     }
@@ -61,12 +61,16 @@ public class UserRegistry extends AbstractBehavior<UserRegistry.Command>  {
         return this;
     }
 
+    private Behavior<Command> onLoginUser(LoginExistsUser command) {
+        User user = command.user();
+        LoginUser loginUser = new LoginUser(user.email, user.password);
+        command.replyTo().tell(loginUser);
+        return this;
+    }
+
     private Behavior<Command> onGetUser(GetAuthorizationUser command) {
-      Optional<User> maybeUser = users.stream()
-              .filter(user -> user.equals(command.replyTo))
-              .findFirst();
-      User user = maybeUser.get();
-      command.replyTo().tell(new AuthorizationUser(user.id, user.email, user.created, user.name));
-      return this;
+        User user = command.user;
+        command.replyTo().tell(new AuthorizationUser(user.id, user.email, user.created, user.name));
+        return this;
     }
 }

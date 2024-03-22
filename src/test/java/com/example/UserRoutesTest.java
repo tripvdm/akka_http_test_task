@@ -1,18 +1,17 @@
 package com.example;
 
 
-
+import akka.actor.testkit.typed.javadsl.TestKitJunitResource;
 import akka.actor.typed.ActorRef;
-import akka.http.javadsl.model.*;
+import akka.http.javadsl.model.HttpRequest;
+import akka.http.javadsl.model.MediaTypes;
+import akka.http.javadsl.model.StatusCodes;
 import akka.http.javadsl.testkit.JUnitRouteTest;
 import akka.http.javadsl.testkit.TestRoute;
 import org.junit.*;
 import org.junit.runners.MethodSorters;
-import akka.http.javadsl.model.HttpRequest;
-import akka.http.javadsl.model.StatusCodes;
-import akka.actor.testkit.typed.javadsl.TestKitJunitResource;
 
-import static com.example.UserRegistry.users;
+import static com.example.UserRoutes.users;
 
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
@@ -33,7 +32,6 @@ public class UserRoutesTest extends JUnitRouteTest {
     public void before() {
         UserRoutes userRoutes = new UserRoutes(testkit.system(), userRegistry);
         appRoute = testRoute(userRoutes.userRoutes());
-        users.add(new UserRegistry.User("11", "vadim", "sfds@mail.ru", "11.11.11", "wewq"));
     }
 
     @AfterClass

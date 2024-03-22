@@ -2,34 +2,40 @@
 [0m[[0m[0mdebug[0m] [0m[0mIncrementalCompile.incrementalCompile[0m
 [0m[[0m[0mdebug[0m] [0m[0mprevious = Stamps for: 12 products, 3 sources, 6 libraries[0m
 [0m[[0m[0mdebug[0m] [0m[0mcurrent source = Set(${BASE}/src/main/java/com/example/UserRoutes.java, ${BASE}/src/main/java/com/example/QuickstartApp.java, ${BASE}/src/main/java/com/example/UserRegistry.java)[0m
-[0m[[0m[0mdebug[0m] [0m[0m> initialChanges = InitialChanges(Changes(added = Set(), removed = Set(), changed = Set(${BASE}/src/main/java/com/example/UserRoutes.java), unmodified = ...),Set(),Set(),API Changes: Set())[0m
+[0m[[0m[0mdebug[0m] [0m[0m> initialChanges = InitialChanges(Changes(added = Set(), removed = Set(), changed = Set(${BASE}/src/main/java/com/example/UserRegistry.java, ${BASE}/src/main/java/com/example/UserRoutes.java), unmodified = ...),Set(),Set(),API Changes: Set())[0m
 [0m[[0m[0mdebug[0m] [0m[0m[0m
 [0m[[0m[0mdebug[0m] [0m[0mInitial source changes:[0m
 [0m[[0m[0mdebug[0m] [0m[0m	removed: Set()[0m
 [0m[[0m[0mdebug[0m] [0m[0m	added: Set()[0m
-[0m[[0m[0mdebug[0m] [0m[0m	modified: Set(${BASE}/src/main/java/com/example/UserRoutes.java)[0m
+[0m[[0m[0mdebug[0m] [0m[0m	modified: Set(${BASE}/src/main/java/com/example/UserRegistry.java, ${BASE}/src/main/java/com/example/UserRoutes.java)[0m
 [0m[[0m[0mdebug[0m] [0m[0mInvalidated products: Set()[0m
 [0m[[0m[0mdebug[0m] [0m[0mExternal API changes: API Changes: Set()[0m
 [0m[[0m[0mdebug[0m] [0m[0mModified binary dependencies: Set()[0m
-[0m[[0m[0mdebug[0m] [0m[0mInitial directly invalidated classes: Set(com.example.UserRoutes)[0m
+[0m[[0m[0mdebug[0m] [0m[0mInitial directly invalidated classes: Set(com.example.UserRegistry.Error, com.example.UserRegistry, com.example.UserRegistry.LoginExistsUser, com.example.UserRegistry.AuthorizationUser, com.example.UserRegistry.RegistrationUser, com.example.UserRegistry.GetAuthorizationUser, com.example.UserRegistry.CreateUser, com.example.UserRegistry.Command, com.example.UserRoutes, com.example.UserRegistry.LoginUser, com.example.UserRegistry.User)[0m
 [0m[[0m[0mdebug[0m] [0m[0mSources indirectly invalidated by:[0m
 [0m[[0m[0mdebug[0m] [0m[0m	product: Set()[0m
 [0m[[0m[0mdebug[0m] [0m[0m	binary dep: Set()[0m
 [0m[[0m[0mdebug[0m] [0m[0m	external source: Set()[0m
-[0m[[0m[0mdebug[0m] [0m[0mAll initially invalidated classes: Set(com.example.UserRoutes)[0m
-[0m[[0m[0mdebug[0m] [0m[0mAll initially invalidated sources:Set(${BASE}/src/main/java/com/example/UserRoutes.java)[0m
-[0m[[0m[0mdebug[0m] [0m[0mInitial set of included nodes: com.example.UserRoutes[0m
+[0m[[0m[0mdebug[0m] [0m[0mAll initially invalidated classes: Set(com.example.UserRegistry.Error, com.example.UserRegistry, com.example.UserRegistry.LoginExistsUser, com.example.UserRegistry.AuthorizationUser, com.example.UserRegistry.RegistrationUser, com.example.UserRegistry.GetAuthorizationUser, com.example.UserRegistry.CreateUser, com.example.UserRegistry.Command, com.example.UserRoutes, com.example.UserRegistry.LoginUser, com.example.UserRegistry.User)[0m
+[0m[[0m[0mdebug[0m] [0m[0mAll initially invalidated sources:Set(${BASE}/src/main/java/com/example/UserRegistry.java, ${BASE}/src/main/java/com/example/UserRoutes.java)[0m
+[0m[[0m[0mdebug[0m] [0m[0mInitial set of included nodes: com.example.UserRegistry.Error, com.example.UserRegistry, com.example.UserRegistry.LoginExistsUser, com.example.UserRegistry.AuthorizationUser, com.example.UserRegistry.RegistrationUser, com.example.UserRegistry.GetAuthorizationUser, com.example.UserRegistry.CreateUser, com.example.UserRegistry.Command, com.example.UserRoutes, com.example.UserRegistry.LoginUser, com.example.UserRegistry.User[0m
+[0m[[0m[0mdebug[0m] [0m[0mRecompiling all sources: number of invalidated sources > 50.0 percent of all sources[0m
 [0m[[0m[0mdebug[0m] [0m[0mcompilation cycle 1[0m
-[0m[[0m[0minfo[0m] [0m[0mcompiling 1 Java source to /Users/vadim/IdeaProjects/akka-http-quickstart-java/target/scala-2.13/classes ...[0m
-[0m[[0m[0mdebug[0m] [0m[0mAttempting to call com.sun.tools.javac.api.JavacTool@5ed51b9f directly...[0m
-[0m[[0m[0mdebug[0m] [0m[0mJava compilation took 0.486276458 s[0m
+[0m[[0m[0minfo[0m] [0m[0mcompiling 3 Java sources to /Users/vadim/IdeaProjects/akka-http-quickstart-java/target/scala-2.13/classes ...[0m
+[0m[[0m[0mdebug[0m] [0m[0mAttempting to call com.sun.tools.javac.api.JavacTool@60997de7 directly...[0m
+[0m[[0m[0mdebug[0m] [0m[0mJava compilation took 0.421256333 s[0m
+[0m[[0m[0mdebug[0m] [0m[0m[zinc] classfile.Parser parsing com.example.UserRegistry$CreateUser[0m
+[0m[[0m[0mdebug[0m] [0m[0m[zinc] classfile.Parser parsing com.example.UserRegistry$RegistrationUser[0m
+[0m[[0m[0mdebug[0m] [0m[0m[zinc] classfile.Parser parsing com.example.UserRegistry$AuthorizationUser[0m
+[0m[[0m[0mdebug[0m] [0m[0m[zinc] classfile.Parser parsing com.example.UserRegistry[0m
+[0m[[0m[0mdebug[0m] [0m[0m[zinc] classfile.Parser parsing com.example.UserRegistry$LoginExistsUser[0m
+[0m[[0m[0mdebug[0m] [0m[0m[zinc] classfile.Parser parsing com.example.UserRegistry$LoginUser[0m
+[0m[[0m[0mdebug[0m] [0m[0m[zinc] classfile.Parser parsing com.example.UserRegistry$Error[0m
 [0m[[0m[0mdebug[0m] [0m[0m[zinc] classfile.Parser parsing com.example.UserRoutes[0m
-[0m[[0m[0mdebug[0m] [0m[0mJava analysis took 0.050245416 s[0m
-[0m[[0m[0mdebug[0m] [0m[0mJava compilation + analysis took 0.543566542 s[0m
+[0m[[0m[0mdebug[0m] [0m[0m[zinc] classfile.Parser parsing com.example.UserRegistry$User[0m
+[0m[[0m[0mdebug[0m] [0m[0m[zinc] classfile.Parser parsing com.example.QuickstartApp[0m
+[0m[[0m[0mdebug[0m] [0m[0m[zinc] classfile.Parser parsing com.example.UserRegistry$GetAuthorizationUser[0m
+[0m[[0m[0mdebug[0m] [0m[0m[zinc] classfile.Parser parsing com.example.UserRegistry$Command[0m
+[0m[[0m[0mdebug[0m] [0m[0mJava analysis took 0.067631666 s[0m
+[0m[[0m[0mdebug[0m] [0m[0mJava compilation + analysis took 0.49398125 s[0m
 [0m[[0m[0mdebug[0m] [0m[0mdone compiling[0m
-[0m[[0m[0mdebug[0m] [0m[0mNew invalidations:[0m
-[0m[[0m[0mdebug[0m] [0m[0mInitial set of included nodes: [0m
-[0m[[0m[0mdebug[0m] [0m[0mPreviously invalidated, but (transitively) depend on new invalidations:[0m
-[0m[[0m[0mdebug[0m] [0m[0mFinal step, transitive dependencies:[0m
-[0m[[0m[0mdebug[0m] [0m[0m	Set()[0m
-[0m[[0m[0mdebug[0m] [0m[0mNo classes were invalidated.[0m
