@@ -70,8 +70,10 @@ public class UserRoutesTest extends JUnitRouteTest {
     @Test
     public void testLoginExistsUser() {
         appRoute.run(HttpRequest.POST("/api_v1/login")
-                        .withEntity(MediaTypes.APPLICATION_JSON.toContentType(),
-                                "{\"name\": \"Kapi\", \"age\": 42, \"countryOfResidence\": \"jp\"}"))
+                        .withEntity(MediaTypes.APPLICATION_JSON.toContentType(), "{\n" +
+                                "  \"email\": \"sfds@mail.ru\",\n" +
+                                "  \"password\": \"wewq\"\n" +
+                                "}"))
                 .assertStatusCode(StatusCodes.OK)
                 .assertMediaType("application/json")
                 .assertEntity("\"\"");
@@ -80,8 +82,10 @@ public class UserRoutesTest extends JUnitRouteTest {
     @Test
     public void testLoginNotExistsUser() {
         appRoute.run(HttpRequest.POST("/api_v1/login")
-                        .withEntity(MediaTypes.APPLICATION_JSON.toContentType(),
-                                "{\"name\": \"Kapsdfdsi\", \"age\": 43252, \"countryOfResidence\": \"324\"}"))
+                        .withEntity(MediaTypes.APPLICATION_JSON.toContentType(), "{\n" +
+                                "  \"email\": \"sfds@mail.ru\",\n" +
+                                "  \"password\": \"wewq\"\n" +
+                                "}"))
                 .assertStatusCode(StatusCodes.UNPROCESSABLE_CONTENT)
                 .assertMediaType("application/json")
                 .assertEntity("{\"error\":\"session.errors.emailAlreadyRegistered\"}");
@@ -89,7 +93,14 @@ public class UserRoutesTest extends JUnitRouteTest {
 
     @Test
     public void testLoginAfterRegistration() {
-
+        appRoute.run(HttpRequest.POST("/api_v1/login")
+                        .withEntity(MediaTypes.APPLICATION_JSON.toContentType(), "{\n" +
+                                "  \"email\": \"sfds@mail.ru\",\n" +
+                                "  \"password\": \"wewq\"\n" +
+                                "}"))
+                .assertStatusCode(StatusCodes.OK)
+                .assertMediaType("application/json")
+                .assertEntity("\"\"");
     }
 
     @Test
@@ -116,6 +127,16 @@ public class UserRoutesTest extends JUnitRouteTest {
     public void testLogoutAuthorizationUser() {
         appRoute.run(HttpRequest.PUT("/api_v1/logout"))
                 .assertStatusCode(StatusCodes.OK)
+                .assertEntity("\"\"");
+    }
+
+    @Test
+    public void testGetNotAuthorizationUser() {
+        appRoute.run(HttpRequest.GET("/api_v1/me")
+                        .withEntity(MediaTypes.APPLICATION_JSON.toContentType(),
+                                "{\"name\":\"Kapik\",\"age\":42,\"countryOfResidence\":\"jp\"}"))
+                .assertStatusCode(StatusCodes.UNAUTHORIZED)
+                .assertMediaType("application/json")
                 .assertEntity("\"\"");
     }
 }

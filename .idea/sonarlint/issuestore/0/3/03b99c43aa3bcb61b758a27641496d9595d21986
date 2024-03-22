@@ -1,7 +1,9 @@
 
-Y
-java:S1172&"7Remove this unused method parameter "registrationUser".(Ž‹öÊûÿÿÿÿ8ä·¶–æ1
+D
+java:S1481O"'Remove this unused "us" local variable.(¦É§à8Ü»›¬æ1
+V
+java:S1128"4Remove this unused import 'java.util.Arrays.stream'.(Â´’¨ýÿÿÿÿ8ç»›¬æ1
 I
-java:S1068"'Remove this unused "log" private field.(âƒú­ÿÿÿÿÿ8‹™‰“æ1
+java:S1068"'Remove this unused "log" private field.(âƒú­ÿÿÿÿÿ8ê»›¬æ1
 [
-java:S1144""9Remove this unused private "getAuthorizationUser" method.(Ð³šØøÿÿÿÿ8Óò³–æ1
+java:S1144+"9Remove this unused private "getAuthorizationUser" method.(Ð³šØøÿÿÿÿ8ë»›¬æ1

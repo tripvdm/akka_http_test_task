@@ -33,9 +33,9 @@ public class UserRegistry extends AbstractBehavior<UserRegistry.Command>  {
     public record AuthorizationUser(String id, String email, String created, String name) {}
     public record Error(String error) {}
     public record CreateUser(User user, ActorRef<RegistrationUser> replyTo) implements Command {}
-
+    public record LoginExistsUser(User user, ActorRef<LoginUser> replyTo) implements Command {}
     public record GetAuthorizationUser(ActorRef<AuthorizationUser> replyTo) implements Command {}
-
+    public record LogoutUser(ActorRef<User> replyTo) implements Command {}
     public static final List<User> users = new ArrayList<>();
 
     private UserRegistry(ActorContext<Command> context) {
