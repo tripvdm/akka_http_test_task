@@ -58,14 +58,13 @@ public class UserRoutes {
 
     private Route registrateUser() {
         return post(() ->
-                entity(
-                        Jackson.unmarshaller(RegistrationUser.class),
+                entity(Jackson.unmarshaller(RegistrationUser.class),
                         regUser -> onSuccess(createUser(new User(regUser.email(), false)), performed -> {
                             User newUser = new User(UUID.randomUUID().toString(),
-                                    performed.name(),
-                                    performed.email(),
+                                    regUser.name(),
+                                    regUser.email(),
                                     DateTime.now().toRfc1123DateTimeString(),
-                                    performed.password(),
+                                    regUser.password(),
                                     false);
 
                             if (users.contains(newUser)) {
@@ -87,9 +86,17 @@ public class UserRoutes {
                             User user = new User(loginUser.email(), false);
                             return onSuccess(authorizeUsers(user), performed -> {
                                         if (users.contains(user)) {
-                                            userAuth = users.stream()
+                                            User authUser = users.stream()
                                                     .filter(users::contains)
-                                                    .findFirst().get();
+                                                    .findFirst()
+                                                    .get();
+
+                                            userAuth = new User(authUser.id(),
+                                                    authUser.name(),
+                                                    authUser.email(),
+                                                    authUser.created(),
+                                                    authUser.password(),
+                                                    true);
                                             return complete(StatusCodes.OK, "", Jackson.marshaller());
                                         } else {
                                             return complete(StatusCodes.UNPROCESSABLE_CONTENT, errorUnProccessableContent, Jackson.marshaller());

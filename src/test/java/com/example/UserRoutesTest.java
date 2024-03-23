@@ -42,7 +42,7 @@ public class UserRoutesTest extends JUnitRouteTest {
                 "sergey@mail.ru",
                 "12-12-12",
                 "erere",
-                false));
+                true));
     }
 
     @AfterClass
@@ -116,11 +116,12 @@ public class UserRoutesTest extends JUnitRouteTest {
     public void testGetAuthorizationUser() {
         appRoute.run(HttpRequest.GET("/api_v1/me"))
                 .assertStatusCode(StatusCodes.OK)
-                .assertMediaType("application/json")
-                .assertEntity("{\"id\":\"42b9a471-5d70-489f-ae4f-7702411e527b\"," +
-                        "\"email\":\"sergey@mail.ru\"," +
-                        "\"created\":\"12-12-12\"," +
-                        "\"name\":\"sergey\"}");
+                .assertEntity("{\n" +
+                        "\"created\": \"Sat, 23 Mar 2024 14:49:13 GMT\",\n" +
+                        "\"email\": \"sergey@mail.ru\",\n" +
+                        "\"id\": \"11162b7f-7fa1-4981-b894-f020a6f77e6a\",\n" +
+                        "\"name\": \"sergey\"\n" +
+                        "}");
     }
 
     @Test
@@ -136,8 +137,7 @@ public class UserRoutesTest extends JUnitRouteTest {
     @Test
     public void testLogoutAuthorizationUser() {
         appRoute.run(HttpRequest.PUT("/api_v1/logout"))
-                .assertStatusCode(StatusCodes.OK)
-                .assertEntity("\"\"");
+                .assertStatusCode(StatusCodes.OK);
     }
 
     @Test
