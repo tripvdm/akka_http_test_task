@@ -5,6 +5,7 @@ import akka.actor.typed.ActorSystem;
 import akka.actor.typed.Scheduler;
 import akka.actor.typed.javadsl.AskPattern;
 import akka.http.javadsl.marshallers.jackson.Jackson;
+import akka.http.javadsl.model.DateTime;
 import akka.http.javadsl.model.StatusCodes;
 import akka.http.javadsl.server.Route;
 
@@ -12,6 +13,7 @@ import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 import java.util.concurrent.CompletionStage;
 
 import static akka.http.javadsl.server.Directives.*;
@@ -58,17 +60,21 @@ public class UserRoutes {
         return post(() ->
                 entity(
                         Jackson.unmarshaller(RegistrationUser.class),
-                        regUser -> {
-                            User user = new User(regUser.email(), false);
-                            return onSuccess(createUser(user), performed -> {
-                                if (users.contains(user)) {
-                                    return complete(StatusCodes.UNPROCESSABLE_CONTENT, errorUnProccessableContent, Jackson.marshaller());
-                                } else {
-                                    users.add(user);
-                                    return complete(StatusCodes.OK, "", Jackson.marshaller());
-                                }
-                            });
-                        }
+                        regUser -> onSuccess(createUser(new User(regUser.email(), false)), performed -> {
+                            User newUser = new User(UUID.randomUUID().toString(),
+                                    performed.name(),
+                                    performed.email(),
+                                    DateTime.now().toRfc1123DateTimeString(),
+                                    performed.password(),
+                                    false);
+
+                            if (users.contains(newUser)) {
+                                return complete(StatusCodes.UNPROCESSABLE_CONTENT, errorUnProccessableContent, Jackson.marshaller());
+                            } else {
+                                users.add(newUser);
+                                return complete(StatusCodes.OK, "", Jackson.marshaller());
+                            }
+                        })
                 )
         );
     }
@@ -81,7 +87,9 @@ public class UserRoutes {
                             User user = new User(loginUser.email(), false);
                             return onSuccess(authorizeUsers(user), performed -> {
                                         if (users.contains(user)) {
-                                            userAuth = new User(user.email(), true);
+                                            userAuth = users.stream()
+                                                    .filter(users::contains)
+                                                    .findFirst().get();
                                             return complete(StatusCodes.OK, "", Jackson.marshaller());
                                         } else {
                                             return complete(StatusCodes.UNPROCESSABLE_CONTENT, errorUnProccessableContent, Jackson.marshaller());

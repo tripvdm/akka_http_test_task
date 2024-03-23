@@ -21,11 +21,11 @@
 [0m[[0m[0mdebug[0m] [0m[0mInitial set of included nodes: com.example.UserRoutes[0m
 [0m[[0m[0mdebug[0m] [0m[0mcompilation cycle 1[0m
 [0m[[0m[0minfo[0m] [0m[0mcompiling 1 Java source to /Users/vadim/IdeaProjects/akka-http-quickstart-java/target/scala-2.13/classes ...[0m
-[0m[[0m[0mdebug[0m] [0m[0mAttempting to call com.sun.tools.javac.api.JavacTool@6374f35b directly...[0m
-[0m[[0m[0mdebug[0m] [0m[0mJava compilation took 0.364648583 s[0m
+[0m[[0m[0mdebug[0m] [0m[0mAttempting to call com.sun.tools.javac.api.JavacTool@20b09c1a directly...[0m
+[0m[[0m[0mdebug[0m] [0m[0mJava compilation took 0.467049083 s[0m
 [0m[[0m[0mdebug[0m] [0m[0m[zinc] classfile.Parser parsing com.example.UserRoutes[0m
-[0m[[0m[0mdebug[0m] [0m[0mJava analysis took 0.036940125 s[0m
-[0m[[0m[0mdebug[0m] [0m[0mJava compilation + analysis took 0.406238709 s[0m
+[0m[[0m[0mdebug[0m] [0m[0mJava analysis took 0.039245 s[0m
+[0m[[0m[0mdebug[0m] [0m[0mJava compilation + analysis took 0.515161375 s[0m
 [0m[[0m[0mdebug[0m] [0m[0mdone compiling[0m
 [0m[[0m[0mdebug[0m] [0m[0mNew invalidations:[0m
 [0m[[0m[0mdebug[0m] [0m[0mInitial set of included nodes: [0m
