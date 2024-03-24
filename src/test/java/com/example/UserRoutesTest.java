@@ -3,7 +3,6 @@ package com.example;
 
 import akka.actor.testkit.typed.javadsl.TestKitJunitResource;
 import akka.actor.typed.ActorRef;
-import akka.http.javadsl.model.DateTime;
 import akka.http.javadsl.model.HttpRequest;
 import akka.http.javadsl.model.MediaTypes;
 import akka.http.javadsl.model.StatusCodes;
@@ -11,9 +10,6 @@ import akka.http.javadsl.testkit.JUnitRouteTest;
 import akka.http.javadsl.testkit.TestRoute;
 import org.junit.*;
 import org.junit.runners.MethodSorters;
-
-import java.time.format.DateTimeFormatter;
-import java.util.UUID;
 
 import static com.example.UserRoutes.users;
 
@@ -30,19 +26,19 @@ public class UserRoutesTest extends JUnitRouteTest {
     @BeforeClass
     public static void beforeClass() {
         userRegistry = testkit.spawn(UserRegistry.create());
-    }
 
-    @Before
-    public void before() {
-        UserRoutes userRoutes = new UserRoutes(testkit.system(), userRegistry);
-        appRoute = testRoute(userRoutes.userRoutes());
-        // (String id, String name, String email, String created, String password, boolean login)
         users.add(new UserRegistry.User("42b9a471-5d70-489f-ae4f-7702411e527b",
                 "sergey",
                 "sergey@mail.ru",
                 "12-12-12",
                 "erere",
                 true));
+    }
+
+    @Before
+    public void before() {
+        UserRoutes userRoutes = new UserRoutes(testkit.system(), userRegistry);
+        appRoute = testRoute(userRoutes.userRoutes());
     }
 
     @AfterClass

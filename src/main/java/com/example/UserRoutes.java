@@ -71,6 +71,7 @@ public class UserRoutes {
                                 return complete(StatusCodes.UNPROCESSABLE_CONTENT, errorUnProccessableContent, Jackson.marshaller());
                             } else {
                                 users.add(newUser);
+
                                 return complete(StatusCodes.OK, "", Jackson.marshaller());
                             }
                         })
@@ -97,6 +98,7 @@ public class UserRoutes {
                                                     authUser.created(),
                                                     authUser.password(),
                                                     true);
+
                                             return complete(StatusCodes.OK, "", Jackson.marshaller());
                                         } else {
                                             return complete(StatusCodes.UNPROCESSABLE_CONTENT, errorUnProccessableContent, Jackson.marshaller());
@@ -121,6 +123,7 @@ public class UserRoutes {
     private Route logoutUser() {
         return put(() -> {
             userAuth = new User("", false);
+
             return complete(StatusCodes.OK);
         });
     }
