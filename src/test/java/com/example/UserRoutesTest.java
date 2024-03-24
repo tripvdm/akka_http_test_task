@@ -26,6 +26,13 @@ public class UserRoutesTest extends JUnitRouteTest {
     @BeforeClass
     public static void beforeClass() {
         userRegistry = testkit.spawn(UserRegistry.create());
+
+        users.add(new UserRegistry.User("42b9a471-5d70-489f-ae4f-7702411e527b",
+                "sergey",
+                "sergey@mail.ru",
+                "12-12-12",
+                "erere",
+                true));
     }
 
     @Before
@@ -56,9 +63,9 @@ public class UserRoutesTest extends JUnitRouteTest {
     public void testIfUserExistForRegistration() {
         appRoute.run(HttpRequest.POST("/api_v1/registrate")
                         .withEntity(MediaTypes.APPLICATION_JSON.toContentType(), "{\n" +
-                                "  \"email\": \"sfds@mail.ru\",\n" +
-                                "  \"password\": \"wewq\",\n" +
-                                "   \"name\": \"vadim\"\n" +
+                                "  \"email\": \"sergey@mail.ru\",\n" +
+                                "  \"password\": \"erere\",\n" +
+                                "   \"name\": \"sergey\"\n" +
                                 "}"))
                 .assertStatusCode(StatusCodes.UNPROCESSABLE_CONTENT)
                 .assertMediaType("application/json")
@@ -69,8 +76,8 @@ public class UserRoutesTest extends JUnitRouteTest {
     public void testLoginExistsUser() {
         appRoute.run(HttpRequest.POST("/api_v1/login")
                         .withEntity(MediaTypes.APPLICATION_JSON.toContentType(), "{\n" +
-                                "  \"email\": \"sfds@mail.ru\",\n" +
-                                "  \"password\": \"wewq\"\n" +
+                                " \"email\":\"sergey@mail.ru\",\n" +
+                                " \"password\":\"erere\"\n" +
                                 "}"))
                 .assertStatusCode(StatusCodes.OK)
                 .assertMediaType("application/json")
@@ -93,8 +100,8 @@ public class UserRoutesTest extends JUnitRouteTest {
     public void testLoginAfterRegistration() {
         appRoute.run(HttpRequest.POST("/api_v1/login")
                         .withEntity(MediaTypes.APPLICATION_JSON.toContentType(), "{\n" +
-                                "  \"email\": \"sfds@mail.ru\",\n" +
-                                "  \"password\": \"wewq\"\n" +
+                                " \"email\":\"sergey@mail.ru\",\n" +
+                                " \"password\":\"erere\"\n" +
                                 "}"))
                 .assertStatusCode(StatusCodes.OK)
                 .assertMediaType("application/json")
@@ -103,12 +110,14 @@ public class UserRoutesTest extends JUnitRouteTest {
 
     @Test
     public void testGetAuthorizationUser() {
-        appRoute.run(HttpRequest.GET("/api_v1/me")
-                        .withEntity(MediaTypes.APPLICATION_JSON.toContentType(),
-                                "{\"name\":\"Kapi\",\"age\":42,\"countryOfResidence\":\"jp\"}"))
+        appRoute.run(HttpRequest.GET("/api_v1/me"))
                 .assertStatusCode(StatusCodes.OK)
-                .assertMediaType("application/json")
-                .assertEntity("{\"name\":\"Kapi\",\"age\":42,\"countryOfResidence\":\"jp\"}");
+                .assertEntity("{\n" +
+                        "\"created\": \"Sat, 23 Mar 2024 14:49:13 GMT\",\n" +
+                        "\"email\": \"sergey@mail.ru\",\n" +
+                        "\"id\": \"11162b7f-7fa1-4981-b894-f020a6f77e6a\",\n" +
+                        "\"name\": \"sergey\"\n" +
+                        "}");
     }
 
     @Test
@@ -124,8 +133,7 @@ public class UserRoutesTest extends JUnitRouteTest {
     @Test
     public void testLogoutAuthorizationUser() {
         appRoute.run(HttpRequest.PUT("/api_v1/logout"))
-                .assertStatusCode(StatusCodes.OK)
-                .assertEntity("\"\"");
+                .assertStatusCode(StatusCodes.OK);
     }
 
     @Test

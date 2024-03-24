@@ -1,0 +1,8 @@
+[0m[[0m[0mdebug[0m] [0m[0m> Exec(reStart, Some(1aea650a-c82b-4601-9872-563087f9278c), Some(CommandSource(console0)))[0m
+[0m[[0m[0mdebug[0m] [0m[0mEvaluating tasks: reStart[0m
+[0m[[0m[0mdebug[0m] [0m[0mRunning task... Cancel: Signal, check cycles: false, forcegc: true[0m
+[0m[[0m[0minfo[0m] [0m[0m[33mApplication [0m[1mroot[0m[33m not yet started[0m
+[0m[[0m[0minfo[0m] [0m[0m[33mStarting application [0m[35mroot[0m[33m in the background ...[0m
+[0m[[0m[32msuccess[0m] [0m[0mTotal time: 0 s, completed 23 мар. 2024 г., 13:01:51[0m
+[0m[[0m[0mdebug[0m] [0m[0m> Exec(shell, None, None)[0m
+[0m[[0m[0minfo[0m] [0m[0mshutting down sbt server[0m
